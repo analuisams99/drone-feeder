@@ -57,4 +57,9 @@ public class DroneController {
         @RequestBody Entrega entrega) {
     return ResponseEntity.ok().body(droneService.adicionarEntrega(id, entrega));
   }
+  
+  @GetMapping("/{droneId}/entrega")
+  public ResponseEntity<List<Entrega>> retornarEntregasDoDrone(@PathVariable Long id) {
+    return ResponseEntity.ok().body(droneService.retornarEntregasDoDrone(id));
+  }
 }
