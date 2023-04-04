@@ -2,14 +2,16 @@ package com.futuereh.dronefeeder.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.futuereh.dronefeeder.repository.StatusDaEntrega;
-
+import java.time.LocalDateTime;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import java.time.LocalDateTime;
 
+/**
+ * Model de Entregas.
+ */
 @Entity
 public class Entrega {
   @Id
@@ -28,11 +30,20 @@ public class Entrega {
   @JsonIgnore
   private Drone drone;
 
+  /**
+   * Construtor do Model de Entregas.
+   *
+   * @param dataHoraRetirada Data da retirada
+   * @param dataHoraEntrega Data da entrega
+   * @param latitudeDestino Latitude do endereço de destino
+   * @param longitudeDestino Longitude do endereço de destino
+   */
   public Entrega(
-    LocalDateTime dataHoraRetirada,
-    LocalDateTime dataHoraEntrega,
-    Double latitudeDestino,
-    Double longitudeDestino) {
+      LocalDateTime dataHoraRetirada,
+      LocalDateTime dataHoraEntrega,
+      Double latitudeDestino,
+      Double longitudeDestino
+  ) {
     this.dataHoraRetirada = dataHoraRetirada;
     this.dataHoraEntrega = dataHoraEntrega;
 
@@ -45,7 +56,6 @@ public class Entrega {
   public Entrega() {
 
   }
-
 
   public Long getId() {
     return id;
