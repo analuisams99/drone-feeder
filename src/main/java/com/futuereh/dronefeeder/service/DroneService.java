@@ -40,5 +40,13 @@ public class DroneService {
     repository.deleteById(id);
     return "Drone deletado com sucesso!";
   }
-
+  
+  /**Método de adicionar entregas ao drone.*/
+  public Drone adicionarEntrega(Long id, Entrega entrega) {
+    Drone drone = repository.getReferenceById(id);
+    entrega.setDrone(drone);
+    drone.adicionarEntrega(entrega);
+    return repository.save(drone);
+  }
+  
 }
