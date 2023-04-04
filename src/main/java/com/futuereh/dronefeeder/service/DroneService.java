@@ -34,5 +34,11 @@ public class DroneService {
     drone.setLongitudeAtual(longitude);
     return repository.save(drone);
   }
+  
+  /**Método de deletar drone pelo id.*/
+  public String deletarDrone(Long id) {
+    repository.deleteById(id);
+    return "Drone deletado com sucesso!";
+  }
 
 }
