@@ -8,4 +8,7 @@ import org.springframework.stereotype.Repository;
  * Interface de Entrega.
  */
 @Repository
-public interface EntregaRepository extends JpaRepository<Entrega, Long> {}
+public interface EntregaRepository extends JpaRepository<Entrega, Long> {
+  @Override
+  boolean existsById(Long id);
+}
