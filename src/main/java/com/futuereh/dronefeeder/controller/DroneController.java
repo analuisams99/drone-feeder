@@ -51,4 +51,10 @@ public class DroneController {
     return ResponseEntity.ok().body(droneService.deletarDrone(droneId));
   }
   
+  @PostMapping("/{droneId}/entrega")
+  public ResponseEntity<Drone> adicionarEntrega(
+        @PathVariable Long id,
+        @RequestBody Entrega entrega) {
+    return ResponseEntity.ok().body(droneService.adicionarEntrega(id, entrega));
+  }
 }
