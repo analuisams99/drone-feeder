@@ -5,6 +5,7 @@ import com.futuereh.dronefeeder.service.DroneService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -43,6 +44,11 @@ public class DroneController {
         @RequestBody double longitude) {
     return ResponseEntity.ok()
         .body(droneService.atualizarLocalizacaoDrone(droneId, latitude, longitude));
+  }
+  
+  @DeleteMapping("/{droneId}")
+  public ResponseEntity<String> deletarDrone(@PathVariable Long droneId) {
+    return ResponseEntity.ok().body(droneService.deletarDrone(droneId));
   }
   
 }
