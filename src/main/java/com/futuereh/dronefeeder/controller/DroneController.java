@@ -2,12 +2,11 @@ package com.futuereh.dronefeeder.controller;
 
 import com.futuereh.dronefeeder.model.Drone;
 import com.futuereh.dronefeeder.service.DroneService;
-
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,5 +28,10 @@ public class DroneController {
   @GetMapping 
   public ResponseEntity<List<Drone>> retornarTodosOsDrones() {
     return ResponseEntity.ok().body(droneService.retornarTodosOsDrones());
+  }
+  
+  @GetMapping("/{droneId}")
+  public ResponseEntity<Drone> retornarDronePeloId(@PathVariable Long droneId) {
+    return ResponseEntity.ok().body(droneService.retornarDronePeloId(droneId));
   }
 }
