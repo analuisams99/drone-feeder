@@ -49,4 +49,9 @@ public class DroneService {
     return repository.save(drone);
   }
   
+  /**Método de retornar todas as entregas de um determinado drone.*/
+  public List<Entregas> retornarEntregasDoDrone(Long id) {
+    Drone drone = repository.getReferenceById(id);
+    return drone.getEntregas();
+  }
 }
