@@ -3,7 +3,6 @@ package com.futuereh.dronefeeder.service;
 import com.futuereh.dronefeeder.model.Drone;
 import com.futuereh.dronefeeder.repository.DroneRepository;
 import java.util.List;
-import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,8 +23,16 @@ public class DroneService {
   }
 
   /**Método de retornar drone pelo id.*/
-  public Optional<Drone> retornarDronePeloId(Long id) {
-    return repository.findById(id);
+  public Drone retornarDronePeloId(Long id) {
+    return repository.getReferenceById(id);
+  }
+  
+  /**Método de atualizar localização do drone.*/
+  public Drone atualizarLocalizacaoDrone(Long id, double latitude, double longitude) {
+    Drone drone = repository.getReferenceById(id);
+    drone.setLatitudeAtual(latitude);
+    drone.setLongitudeAtual(longitude);
+    return repository.save(drone);
   }
 
 }
