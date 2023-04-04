@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -34,4 +35,14 @@ public class DroneController {
   public ResponseEntity<Drone> retornarDronePeloId(@PathVariable Long droneId) {
     return ResponseEntity.ok().body(droneService.retornarDronePeloId(droneId));
   }
+  
+  @PutMapping("/{droneId}")
+  public ResponseEntity<Drone> atualizarLocalizacaoDrone(
+        @PathVariable Long droneId, 
+        @RequestBody double latitude,
+        @RequestBody double longitude) {
+    return ResponseEntity.ok()
+        .body(droneService.atualizarLocalizacaoDrone(droneId, latitude, longitude));
+  }
+  
 }
