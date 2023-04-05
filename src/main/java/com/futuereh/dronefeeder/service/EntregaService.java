@@ -1,5 +1,6 @@
 package com.futuereh.dronefeeder.service;
 
+import com.futuereh.dronefeeder.Exceptions.NaoEncontradoException;
 import com.futuereh.dronefeeder.model.Drone;
 import com.futuereh.dronefeeder.model.Entrega;
 import com.futuereh.dronefeeder.repository.EntregaRepository;
@@ -28,7 +29,7 @@ public class EntregaService {
     Entrega entrega = entregaRepo.findById(id).get();
 
     if (!entregaRepo.existsById(entrega.getId())) {
-      throw new EntregaNaoEncontradaException();
+      throw new NaoEncontradoException("Entrega não encontrada.");
     }
 
     return entrega;
@@ -44,7 +45,7 @@ public class EntregaService {
     Entrega entrega = entregaRepo.findById(id).get();
 
     if (!entregaRepo.existsById(entrega.getId())) {
-      throw new EntregaNaoEncontradaException();
+      throw new NaoEncontradoException("Entrega não encontrada.");
     }
 
     return entrega.getDrone();
@@ -61,7 +62,7 @@ public class EntregaService {
     Entrega entregaParaAtualizar = entregaRepo.findById(id).get();
 
     if (!entregaRepo.existsById(entregaParaAtualizar.getId())) {
-      throw new EntregaNaoEncontradaException();
+      throw new NaoEncontradoException("Entrega não encontrada.");
     }
 
     entregaParaAtualizar.setDataHoraEntrega(entrega.getDataHoraEntrega());
@@ -83,7 +84,7 @@ public class EntregaService {
     Entrega entregaParaDeletar = entregaRepo.findById(id).get();
 
     if (!entregaRepo.existsById(entregaParaDeletar.getId())) {
-      throw new EntregaNaoEncontradaException();
+      throw new NaoEncontradoException("Entrega não encontrada.");
     }
 
     entregaRepo.deleteById(id);
