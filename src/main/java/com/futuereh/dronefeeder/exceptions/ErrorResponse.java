@@ -1,5 +1,8 @@
-package com.futuereh.dronefeeder.Exceptions;
+package com.futuereh.dronefeeder.exceptions;
 
+/**
+ * Error Response class.
+ */
 public class ErrorResponse {
   private final String error;
 
