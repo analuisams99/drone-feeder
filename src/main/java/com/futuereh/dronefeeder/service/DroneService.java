@@ -33,18 +33,18 @@ public class DroneService {
 
   /**Método de retornar drone pelo id.*/
   public Drone retornarDronePeloId(Long id) {
-    Drone drone = repository.getReferenceById(id);
+    Drone drone = repository.findById(id).get();
 
     if (!repository.existsById(drone.getId())) {
       throw new NaoEncontradoException("Drone não encontrado.");
     } else {
-      return repository.getReferenceById(id);
+      return drone;
     }
   }
   
   /**Método de atualizar localização do drone.*/
   public Drone atualizarLocalizacaoDrone(Long id, double latitude, double longitude) {
-    Drone drone = repository.getReferenceById(id);
+    Drone drone = repository.findById(id).get();
 
     if (!repository.existsById(drone.getId())) {
       throw new NaoEncontradoException("Drone não encontrado.");
@@ -57,7 +57,7 @@ public class DroneService {
   
   /**Método de deletar drone pelo id.*/
   public String deletarDrone(Long id) {
-    Drone drone = repository.getReferenceById(id);
+    Drone drone = repository.findById(id).get();
 
     if (!repository.existsById(drone.getId())) {
       throw new NaoEncontradoException("Drone não encontrado.");
@@ -69,8 +69,8 @@ public class DroneService {
   
   /**Método de adicionar entregas ao drone.*/
   public Drone adicionarEntrega(Long droneId, Long entregaId) {
-    Drone drone = repository.getReferenceById(droneId);
-    Entrega entrega = entregaRepo.getReferenceById(entregaId);
+    Drone drone = repository.findById(droneId).get();
+    Entrega entrega = entregaRepo.findById(entregaId).get();
     
     if (!repository.existsById(drone.getId())) {
       throw new NaoEncontradoException("Drone não encontrado.");
@@ -89,7 +89,7 @@ public class DroneService {
   
   /**Método de retornar todas as entregas de um determinado drone.*/
   public List<Entrega> retornarEntregasDoDrone(Long id) {
-    Drone drone = repository.getReferenceById(id);
+    Drone drone = repository.findById(id).get();
     
     if (!repository.existsById(drone.getId())) {
       throw new NaoEncontradoException("Drone não encontrado.");
