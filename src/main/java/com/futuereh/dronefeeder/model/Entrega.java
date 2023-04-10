@@ -2,7 +2,6 @@ package com.futuereh.dronefeeder.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.futuereh.dronefeeder.repository.StatusDaEntrega;
-import java.time.LocalDateTime;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -18,10 +17,10 @@ public class Entrega {
   @GeneratedValue(strategy = GenerationType.AUTO)
   private Long id;
 
-  private LocalDateTime dataHoraRetirada;
-  private LocalDateTime dataHoraEntrega;
+  private String dataHoraRetirada;
+  private String dataHoraEntrega;
 
-  private StatusDaEntrega statusDaEntrega;
+  private StatusDaEntrega statusDaEntrega = StatusDaEntrega.PENDENTE;
 
   private Double latitudeDestino;
   private Double longitudeDestino;
@@ -33,24 +32,15 @@ public class Entrega {
   /**
    * Construtor do Model de Entregas.
    *
-   * @param dataHoraRetirada Data da retirada
-   * @param dataHoraEntrega Data da entrega
    * @param latitudeDestino Latitude do endereço de destino
    * @param longitudeDestino Longitude do endereço de destino
    */
   public Entrega(
-      LocalDateTime dataHoraRetirada,
-      LocalDateTime dataHoraEntrega,
       Double latitudeDestino,
       Double longitudeDestino
   ) {
-    this.dataHoraRetirada = dataHoraRetirada;
-    this.dataHoraEntrega = dataHoraEntrega;
-
     this.latitudeDestino = latitudeDestino;
     this.longitudeDestino = longitudeDestino;
-
-    this.statusDaEntrega = StatusDaEntrega.PENDENTE;
   }
 
   public Entrega() {
@@ -61,19 +51,19 @@ public class Entrega {
     return id;
   }
 
-  public LocalDateTime getDataHoraRetirada() {
+  public String getDataHoraRetirada() {
     return dataHoraRetirada;
   }
 
-  public void setDataHoraRetirada(LocalDateTime dataHoraRetirada) {
+  public void setDataHoraRetirada(String dataHoraRetirada) {
     this.dataHoraRetirada = dataHoraRetirada;
   }
 
-  public LocalDateTime getDataHoraEntrega() {
-    return dataHoraEntrega;
+  public String getDataHoraEntrega() {
+    return dataHoraEntrega; 
   }
 
-  public void setDataHoraEntrega(LocalDateTime dataHoraEntrega) {
+  public void setDataHoraEntrega(String dataHoraEntrega) {
     this.dataHoraEntrega = dataHoraEntrega;
   }
 
