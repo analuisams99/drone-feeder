@@ -41,10 +41,9 @@ public class DroneController {
   @PutMapping("/{droneId}")
   public ResponseEntity<Drone> atualizarLocalizacaoDrone(
         @PathVariable Long droneId, 
-        @RequestBody double latitude,
-        @RequestBody double longitude) {
+        @RequestBody Drone drone) {
     return ResponseEntity.ok()
-        .body(droneService.atualizarLocalizacaoDrone(droneId, latitude, longitude));
+        .body(droneService.atualizarLocalizacaoDrone(droneId, drone));
   }
   
   @DeleteMapping("/{droneId}")
@@ -60,7 +59,7 @@ public class DroneController {
     return ResponseEntity.ok().body(droneService.adicionarEntrega(droneId, entregaId));
   }
   
-  @GetMapping("/{droneId}/entrega")
+  @GetMapping("/{droneId}/entregas")
   public ResponseEntity<List<Entrega>> retornarEntregasDoDrone(@PathVariable Long droneId) {
     return ResponseEntity.ok().body(droneService.retornarEntregasDoDrone(droneId));
   }
