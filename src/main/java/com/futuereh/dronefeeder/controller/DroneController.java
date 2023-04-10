@@ -1,6 +1,7 @@
 package com.futuereh.dronefeeder.controller;
 
 import com.futuereh.dronefeeder.model.Drone;
+import com.futuereh.dronefeeder.model.Entrega;
 import com.futuereh.dronefeeder.service.DroneService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 /**Classe DroneController.*/
 @RestController
-@RequestMapping("/drones")
+@RequestMapping("/drone")
 public class DroneController {
 
   @Autowired
