@@ -25,6 +25,12 @@ public class ExceptionController {
     return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
   }
 
+  /**
+   * Internal Error.
+   *
+   * @param exception internalError
+   * @return Mensagem de erro
+   */
   @ExceptionHandler(Exception.class)
   public ResponseEntity<ErrorResponse> internalError(RuntimeException exception) {
     ErrorResponse response = new ErrorResponse(exception.getMessage());

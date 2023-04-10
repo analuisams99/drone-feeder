@@ -1,5 +1,6 @@
 package com.futuereh.dronefeeder.repository;
 
+/**Enum statusDaEntrega.*/
 public enum StatusDaEntrega {
   PENDENTE("Pendente"),
   EM_ANDAMENTO("Em andamento"),
