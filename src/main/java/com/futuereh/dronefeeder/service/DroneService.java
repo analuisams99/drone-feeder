@@ -18,6 +18,9 @@ public class DroneService {
   @Autowired
   private DroneRepository repository;
   
+  @Autowired
+  private EntregaRepository entregaRepo;
+  
   /**Método de inserir novo drone.*/
   public Drone inserirDrone(Drone drone) {
     return repository.save(drone);
@@ -30,34 +33,68 @@ public class DroneService {
 
   /**Método de retornar drone pelo id.*/
   public Drone retornarDronePeloId(Long id) {
-    return repository.getReferenceById(id);
+    Drone drone = repository.getReferenceById(id);
+
+    if (!repository.existsById(drone.getId())) {
+      throw new NaoEncontradoException("Drone não encontrado.");
+    } else {
+      return repository.getReferenceById(id);
+    }
   }
   
   /**Método de atualizar localização do drone.*/
   public Drone atualizarLocalizacaoDrone(Long id, double latitude, double longitude) {
     Drone drone = repository.getReferenceById(id);
-    drone.setLatitudeAtual(latitude);
-    drone.setLongitudeAtual(longitude);
-    return repository.save(drone);
+
+    if (!repository.existsById(drone.getId())) {
+      throw new NaoEncontradoException("Drone não encontrado.");
+    } else {
+      drone.setLatitudeAtual(latitude);
+      drone.setLongitudeAtual(longitude);
+      return repository.save(drone);
+    }
   }
   
   /**Método de deletar drone pelo id.*/
   public String deletarDrone(Long id) {
-    repository.deleteById(id);
-    return "Drone deletado com sucesso!";
+    Drone drone = repository.getReferenceById(id);
+
+    if (!repository.existsById(drone.getId())) {
+      throw new NaoEncontradoException("Drone não encontrado.");
+    } else {
+      repository.deleteById(id);
+      return "Drone deletado com sucesso!";
+    }
   }
   
   /**Método de adicionar entregas ao drone.*/
-  public Drone adicionarEntrega(Long id, Entrega entrega) {
-    Drone drone = repository.getReferenceById(id);
-    entrega.setDrone(drone);
-    drone.adicionarEntrega(entrega);
-    return repository.save(drone);
+  public Drone adicionarEntrega(Long droneId, Long entregaId) {
+    Drone drone = repository.getReferenceById(droneId);
+    Entrega entrega = entregaRepo.getReferenceById(entregaId);
+    
+    if (!repository.existsById(drone.getId())) {
+      throw new NaoEncontradoException("Drone não encontrado.");
+      
+    } else if (!entregaRepo.existsById(entrega.getId())) {
+      throw new NaoEncontradoException("Entrega não encontrada.");
+    } else {
+      entrega.setDrone(drone);
+      entrega.setStatusDaEntrega(StatusDaEntrega.EM_ANDAMENTO);
+      entrega.setDataHoraRetirada(LocalDateTime.now()
+            .format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")));
+      drone.adicionarEntrega(entrega);
+      return repository.save(drone);
+    }
   }
   
   /**Método de retornar todas as entregas de um determinado drone.*/
   public List<Entrega> retornarEntregasDoDrone(Long id) {
     Drone drone = repository.getReferenceById(id);
-    return drone.getEntregas();
+    
+    if (!repository.existsById(drone.getId())) {
+      throw new NaoEncontradoException("Drone não encontrado.");
+    } else {
+      return drone.getEntregas();
+    }
   }
 }
