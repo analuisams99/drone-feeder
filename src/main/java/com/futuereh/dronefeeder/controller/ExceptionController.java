@@ -18,7 +18,7 @@ public class ExceptionController {
    * @param exception NaoEncontrada
    * @return Mensagem de erro
    */
-  @ExceptionHandler({NaoEncontradoException.class})
+  @ExceptionHandler(NaoEncontradoException.class)
   public ResponseEntity<ErrorResponse> notFound(RuntimeException exception) {
     ErrorResponse response = new ErrorResponse(exception.getMessage());
 
