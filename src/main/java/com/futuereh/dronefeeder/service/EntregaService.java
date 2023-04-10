@@ -32,12 +32,10 @@ public class EntregaService {
    * @return Entrega Correspondente
    */
   public Entrega findById(Long id) {
-    Entrega entrega = entregaRepo.findById(id).get();
-
-    if (!entregaRepo.existsById(entrega.getId())) {
+    if (entregaRepo.findById(id).isEmpty()) {
       throw new NaoEncontradoException("Entrega não encontrada.");
     }
-
+    Entrega entrega = entregaRepo.findById(id).get();
     return entrega;
   }
 
@@ -48,12 +46,10 @@ public class EntregaService {
    * @return Drone Correspondente
    */
   public Drone findDrone(Long id) {
-    Entrega entrega = entregaRepo.findById(id).get();
-
-    if (!entregaRepo.existsById(entrega.getId())) {
+    if (entregaRepo.findById(id).isEmpty()) {
       throw new NaoEncontradoException("Entrega não encontrada.");
     }
-
+    Entrega entrega = entregaRepo.findById(id).get();
     return entrega.getDrone();
   }
 
@@ -65,11 +61,10 @@ public class EntregaService {
    * @return Entrega atualizada
    */
   public Entrega update(Long id, Entrega entrega) {
-    Entrega entregaParaAtualizar = entregaRepo.findById(id).get();
-
-    if (!entregaRepo.existsById(entregaParaAtualizar.getId())) {
+    if (entregaRepo.findById(id).isEmpty()) {
       throw new NaoEncontradoException("Entrega não encontrada.");
     }
+    Entrega entregaParaAtualizar = entregaRepo.findById(id).get();
 
     entregaParaAtualizar.setDataHoraEntrega(entrega.getDataHoraEntrega());
     entregaParaAtualizar.setDataHoraRetirada(entrega.getDataHoraRetirada());
@@ -87,14 +82,10 @@ public class EntregaService {
    * @return Entrega deletada
    */
   public String delete(Long id) {
-    Entrega entregaParaDeletar = entregaRepo.findById(id).get();
-
-    if (!entregaRepo.existsById(entregaParaDeletar.getId())) {
+    if (entregaRepo.findById(id).isEmpty()) {
       throw new NaoEncontradoException("Entrega não encontrada.");
     }
-
     entregaRepo.deleteById(id);
-
     return "Entrega deletada com sucesso!";
   }
 }
