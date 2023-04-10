@@ -97,8 +97,8 @@ public class EntregaController {
    * @return Entrega deletada.
    */
   @DeleteMapping("/{id}")
-  public ResponseEntity<Entrega> delete(@PathVariable Long id) {
-    Entrega response = entregaService.delete(id);
+  public ResponseEntity<String> delete(@PathVariable Long id) {
+    String response = entregaService.delete(id);
 
     return ResponseEntity.ok(response);
   }

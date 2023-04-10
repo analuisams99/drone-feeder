@@ -86,7 +86,7 @@ public class EntregaService {
    * @param id ID da entrega
    * @return Entrega deletada
    */
-  public Entrega delete(Long id) {
+  public String delete(Long id) {
     Entrega entregaParaDeletar = entregaRepo.findById(id).get();
 
     if (!entregaRepo.existsById(entregaParaDeletar.getId())) {
@@ -95,6 +95,6 @@ public class EntregaService {
 
     entregaRepo.deleteById(id);
 
-    return entregaParaDeletar;
+    return "Entrega deletada com sucesso!";
   }
 }
