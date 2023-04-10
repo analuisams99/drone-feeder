@@ -25,7 +25,7 @@ public class DroneController {
 
   @PostMapping
   public ResponseEntity<Drone> inserirDrone(@RequestBody Drone drone) {
-    return ResponseEntity.ok().body(droneService.inserirDrone(drone));
+    return ResponseEntity.created(null).body(droneService.inserirDrone(drone));
   }
   
   @GetMapping 
