@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 /**
@@ -25,8 +26,9 @@ public class Entrega {
   private Double latitudeDestino;
   private Double longitudeDestino;
 
-  @ManyToOne
   @JsonIgnore
+  @ManyToOne
+  @JoinColumn(name = "drone_id")
   private Drone drone;
 
   /**
