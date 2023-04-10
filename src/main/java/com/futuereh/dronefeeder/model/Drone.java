@@ -22,8 +22,9 @@ public class Drone {
 
   private double longitudeAtual;
 
+  @Column
   @OneToMany(mappedBy = "drone")
-  private List<Entrega> entregas = new ArrayList<Entrega>();
+  private List<Entrega> entregas = new ArrayList<>();
 
   public Drone() {}
   
