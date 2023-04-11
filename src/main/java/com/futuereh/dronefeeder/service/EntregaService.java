@@ -4,6 +4,8 @@ import com.futuereh.dronefeeder.exceptions.NaoEncontradoException;
 import com.futuereh.dronefeeder.model.Drone;
 import com.futuereh.dronefeeder.model.Entrega;
 import com.futuereh.dronefeeder.repository.EntregaRepository;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,12 +34,9 @@ public class EntregaService {
    * @return Entrega Correspondente
    */
   public Entrega findById(Long id) {
+    retornaExceptionEntregaNaoEncontrada(id);
+    
     Entrega entrega = entregaRepo.findById(id).get();
-
-    if (!entregaRepo.existsById(entrega.getId())) {
-      throw new NaoEncontradoException("Entrega não encontrada.");
-    }
-
     return entrega;
   }
 
@@ -48,12 +47,9 @@ public class EntregaService {
    * @return Drone Correspondente
    */
   public Drone findDrone(Long id) {
+    retornaExceptionEntregaNaoEncontrada(id);
+
     Entrega entrega = entregaRepo.findById(id).get();
-
-    if (!entregaRepo.existsById(entrega.getId())) {
-      throw new NaoEncontradoException("Entrega não encontrada.");
-    }
-
     return entrega.getDrone();
   }
 
@@ -65,19 +61,28 @@ public class EntregaService {
    * @return Entrega atualizada
    */
   public Entrega update(Long id, Entrega entrega) {
+    retornaExceptionEntregaNaoEncontrada(id);
+
     Entrega entregaParaAtualizar = entregaRepo.findById(id).get();
 
-    if (!entregaRepo.existsById(entregaParaAtualizar.getId())) {
-      throw new NaoEncontradoException("Entrega não encontrada.");
+    entregaParaAtualizar.setDataHoraEntrega(LocalDateTime.now()
+            .format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")));
+
+    switch (entrega.getStatusDaEntrega()) {
+      case ENTREGUE:
+        entregaParaAtualizar.setStatusDaEntrega("ENTREGUE");
+        break;
+      case CANCELADO:
+        entregaParaAtualizar.setStatusDaEntrega("CANCELADO");
+        break;
+      case PENDENTE:
+        entregaParaAtualizar.setStatusDaEntrega("PENDENTE");
+        break;
+      default:
+        entregaParaAtualizar.setStatusDaEntrega("EM_ANDAMENTO");
+        break;
     }
-
-    entregaParaAtualizar.setDataHoraEntrega(entrega.getDataHoraEntrega());
-    entregaParaAtualizar.setDataHoraRetirada(entrega.getDataHoraRetirada());
-    entregaParaAtualizar.setDrone(entrega.getDrone());
-    entregaParaAtualizar.setLatitudeDestino(entrega.getLatitudeDestino());
-    entregaParaAtualizar.setLongitudeDestino(entrega.getLongitudeDestino());
-
-    return entregaParaAtualizar;
+    return entregaRepo.save(entregaParaAtualizar);
   }
 
   /**
@@ -86,15 +91,17 @@ public class EntregaService {
    * @param id ID da entrega
    * @return Entrega deletada
    */
-  public Entrega delete(Long id) {
-    Entrega entregaParaDeletar = entregaRepo.findById(id).get();
-
-    if (!entregaRepo.existsById(entregaParaDeletar.getId())) {
+  public String delete(Long id) {
+    retornaExceptionEntregaNaoEncontrada(id);
+    
+    entregaRepo.deleteById(id);
+    return "Entrega deletada com sucesso!";
+  }
+  
+  /**Método que lança uma exception caso entrega não exista.*/
+  public void retornaExceptionEntregaNaoEncontrada(Long id) {
+    if (entregaRepo.findById(id).isEmpty()) {
       throw new NaoEncontradoException("Entrega não encontrada.");
     }
-
-    entregaRepo.deleteById(id);
-
-    return entregaParaDeletar;
   }
 }

@@ -1,6 +1,7 @@
 package com.futuereh.dronefeeder.controller;
 
 import com.futuereh.dronefeeder.model.Drone;
+import com.futuereh.dronefeeder.model.Entrega;
 import com.futuereh.dronefeeder.service.DroneService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 /**Classe DroneController.*/
 @RestController
-@RequestMapping("/drones")
+@RequestMapping("/drone")
 public class DroneController {
 
   @Autowired
@@ -24,7 +25,7 @@ public class DroneController {
 
   @PostMapping
   public ResponseEntity<Drone> inserirDrone(@RequestBody Drone drone) {
-    return ResponseEntity.ok().body(droneService.inserirDrone(drone));
+    return ResponseEntity.created(null).body(droneService.inserirDrone(drone));
   }
   
   @GetMapping 
@@ -40,10 +41,9 @@ public class DroneController {
   @PutMapping("/{droneId}")
   public ResponseEntity<Drone> atualizarLocalizacaoDrone(
         @PathVariable Long droneId, 
-        @RequestBody double latitude,
-        @RequestBody double longitude) {
+        @RequestBody Drone drone) {
     return ResponseEntity.ok()
-        .body(droneService.atualizarLocalizacaoDrone(droneId, latitude, longitude));
+        .body(droneService.atualizarLocalizacaoDrone(droneId, drone));
   }
   
   @DeleteMapping("/{droneId}")
@@ -51,15 +51,16 @@ public class DroneController {
     return ResponseEntity.ok().body(droneService.deletarDrone(droneId));
   }
   
-  @PostMapping("/{droneId}/entrega")
+  @PostMapping("/{droneId}/entrega/{entregaId}")
   public ResponseEntity<Drone> adicionarEntrega(
-        @PathVariable Long id,
-        @RequestBody Entrega entrega) {
-    return ResponseEntity.ok().body(droneService.adicionarEntrega(id, entrega));
+        @PathVariable Long droneId,
+        @PathVariable Long entregaId
+  ) {
+    return ResponseEntity.ok().body(droneService.adicionarEntrega(droneId, entregaId));
   }
   
-  @GetMapping("/{droneId}/entrega")
-  public ResponseEntity<List<Entrega>> retornarEntregasDoDrone(@PathVariable Long id) {
-    return ResponseEntity.ok().body(droneService.retornarEntregasDoDrone(id));
+  @GetMapping("/{droneId}/entregas")
+  public ResponseEntity<List<Entrega>> retornarEntregasDoDrone(@PathVariable Long droneId) {
+    return ResponseEntity.ok().body(droneService.retornarEntregasDoDrone(droneId));
   }
 }

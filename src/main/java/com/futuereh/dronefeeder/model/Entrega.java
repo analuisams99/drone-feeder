@@ -1,12 +1,13 @@
 package com.futuereh.dronefeeder.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.futuereh.dronefeeder.exceptions.NaoEncontradoException;
 import com.futuereh.dronefeeder.repository.StatusDaEntrega;
-import java.time.LocalDateTime;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 /**
@@ -18,39 +19,31 @@ public class Entrega {
   @GeneratedValue(strategy = GenerationType.AUTO)
   private Long id;
 
-  private LocalDateTime dataHoraRetirada;
-  private LocalDateTime dataHoraEntrega;
+  private String dataHoraRetirada;
+  private String dataHoraEntrega;
 
-  private StatusDaEntrega statusDaEntrega;
+  private StatusDaEntrega statusDaEntrega = StatusDaEntrega.PENDENTE;
 
   private Double latitudeDestino;
   private Double longitudeDestino;
 
-  @ManyToOne
   @JsonIgnore
+  @ManyToOne
+  @JoinColumn(name = "drone_id")
   private Drone drone;
 
   /**
    * Construtor do Model de Entregas.
    *
-   * @param dataHoraRetirada Data da retirada
-   * @param dataHoraEntrega Data da entrega
    * @param latitudeDestino Latitude do endereço de destino
    * @param longitudeDestino Longitude do endereço de destino
    */
   public Entrega(
-      LocalDateTime dataHoraRetirada,
-      LocalDateTime dataHoraEntrega,
       Double latitudeDestino,
       Double longitudeDestino
   ) {
-    this.dataHoraRetirada = dataHoraRetirada;
-    this.dataHoraEntrega = dataHoraEntrega;
-
     this.latitudeDestino = latitudeDestino;
     this.longitudeDestino = longitudeDestino;
-
-    this.statusDaEntrega = StatusDaEntrega.PENDENTE;
   }
 
   public Entrega() {
@@ -61,19 +54,19 @@ public class Entrega {
     return id;
   }
 
-  public LocalDateTime getDataHoraRetirada() {
+  public String getDataHoraRetirada() {
     return dataHoraRetirada;
   }
 
-  public void setDataHoraRetirada(LocalDateTime dataHoraRetirada) {
+  public void setDataHoraRetirada(String dataHoraRetirada) {
     this.dataHoraRetirada = dataHoraRetirada;
   }
 
-  public LocalDateTime getDataHoraEntrega() {
-    return dataHoraEntrega;
+  public String getDataHoraEntrega() {
+    return dataHoraEntrega; 
   }
 
-  public void setDataHoraEntrega(LocalDateTime dataHoraEntrega) {
+  public void setDataHoraEntrega(String dataHoraEntrega) {
     this.dataHoraEntrega = dataHoraEntrega;
   }
 
@@ -81,8 +74,16 @@ public class Entrega {
     return statusDaEntrega;
   }
 
-  public void setStatusDaEntrega(StatusDaEntrega statusDaEntrega) {
-    this.statusDaEntrega = statusDaEntrega;
+  /**Método Setter de status da entrega.*/
+  public void setStatusDaEntrega(String status) {
+    try {
+      StatusDaEntrega statusDaEntrega = StatusDaEntrega.valueOf(status);
+      this.statusDaEntrega = statusDaEntrega;
+    } catch (IllegalArgumentException e) {
+      throw new NaoEncontradoException(
+          "Status não encontrado,"
+          + " por favor escreva 'EM_ANDAMENTO', 'PENDENTE', 'CANCELADO' ou 'ENTREGUE'");
+    }
   }
 
   public Double getLatitudeDestino() {
