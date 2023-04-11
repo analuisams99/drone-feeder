@@ -9,11 +9,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 /**
  * Model de Entregas.
  */
 @Entity
+@Table(name = "entrega")
 public class Entrega {
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
