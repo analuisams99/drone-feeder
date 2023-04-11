@@ -34,9 +34,8 @@ public class EntregaService {
    * @return Entrega Correspondente
    */
   public Entrega findById(Long id) {
-    if (entregaRepo.findById(id).isEmpty()) {
-      throw new NaoEncontradoException("Entrega não encontrada.");
-    }
+    retornaExceptionEntregaNaoEncontrada(id);
+    
     Entrega entrega = entregaRepo.findById(id).get();
     return entrega;
   }
@@ -48,9 +47,8 @@ public class EntregaService {
    * @return Drone Correspondente
    */
   public Drone findDrone(Long id) {
-    if (entregaRepo.findById(id).isEmpty()) {
-      throw new NaoEncontradoException("Entrega não encontrada.");
-    }
+    retornaExceptionEntregaNaoEncontrada(id);
+
     Entrega entrega = entregaRepo.findById(id).get();
     return entrega.getDrone();
   }
@@ -63,9 +61,7 @@ public class EntregaService {
    * @return Entrega atualizada
    */
   public Entrega update(Long id, Entrega entrega) {
-    if (entregaRepo.findById(id).isEmpty()) {
-      throw new NaoEncontradoException("Entrega não encontrada.");
-    }
+    retornaExceptionEntregaNaoEncontrada(id);
 
     Entrega entregaParaAtualizar = entregaRepo.findById(id).get();
 
@@ -96,10 +92,16 @@ public class EntregaService {
    * @return Entrega deletada
    */
   public String delete(Long id) {
+    retornaExceptionEntregaNaoEncontrada(id);
+    
+    entregaRepo.deleteById(id);
+    return "Entrega deletada com sucesso!";
+  }
+  
+  /**Método que lança uma exception caso entrega não exista.*/
+  public void retornaExceptionEntregaNaoEncontrada(Long id) {
     if (entregaRepo.findById(id).isEmpty()) {
       throw new NaoEncontradoException("Entrega não encontrada.");
     }
-    entregaRepo.deleteById(id);
-    return "Entrega deletada com sucesso!";
   }
 }
