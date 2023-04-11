@@ -5,7 +5,6 @@ import com.futuereh.dronefeeder.model.Drone;
 import com.futuereh.dronefeeder.model.Entrega;
 import com.futuereh.dronefeeder.repository.DroneRepository;
 import com.futuereh.dronefeeder.repository.EntregaRepository;
-import com.futuereh.dronefeeder.repository.StatusDaEntrega;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -75,7 +74,7 @@ public class DroneService {
       Entrega entrega = entregaRepo.findById(entregaId).get();
     
       entrega.setDrone(drone);
-      entrega.setStatusDaEntrega(StatusDaEntrega.EM_ANDAMENTO);
+      entrega.setStatusDaEntrega("EM_ANDAMENTO");
       entrega.setDataHoraRetirada(LocalDateTime.now()
             .format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")));
       drone.adicionarEntrega(entrega);

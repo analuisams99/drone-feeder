@@ -64,15 +64,27 @@ public class EntregaService {
     if (entregaRepo.findById(id).isEmpty()) {
       throw new NaoEncontradoException("Entrega não encontrada.");
     }
+
     Entrega entregaParaAtualizar = entregaRepo.findById(id).get();
 
-    entregaParaAtualizar.setDataHoraEntrega(entrega.getDataHoraEntrega());
-    entregaParaAtualizar.setDataHoraRetirada(entrega.getDataHoraRetirada());
-    entregaParaAtualizar.setDrone(entrega.getDrone());
-    entregaParaAtualizar.setLatitudeDestino(entrega.getLatitudeDestino());
-    entregaParaAtualizar.setLongitudeDestino(entrega.getLongitudeDestino());
+    entregaParaAtualizar.setDataHoraEntrega(LocalDateTime.now()
+            .format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")));
 
-    return entregaParaAtualizar;
+    switch (entrega.getStatusDaEntrega()) {
+      case ENTREGUE:
+        entregaParaAtualizar.setStatusDaEntrega("ENTREGUE");
+        break;
+      case CANCELADO:
+        entregaParaAtualizar.setStatusDaEntrega("CANCELADO");
+        break;
+      case PENDENTE:
+        entregaParaAtualizar.setStatusDaEntrega("PENDENTE");
+        break;
+      default:
+        entregaParaAtualizar.setStatusDaEntrega("EM_ANDAMENTO");
+        break;
+    }
+    return entregaRepo.save(entregaParaAtualizar);
   }
 
   /**

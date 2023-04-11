@@ -1,6 +1,7 @@
 package com.futuereh.dronefeeder.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.futuereh.dronefeeder.exceptions.NaoEncontradoException;
 import com.futuereh.dronefeeder.repository.StatusDaEntrega;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -73,8 +74,16 @@ public class Entrega {
     return statusDaEntrega;
   }
 
-  public void setStatusDaEntrega(StatusDaEntrega statusDaEntrega) {
-    this.statusDaEntrega = statusDaEntrega;
+  /**Método Setter de status da entrega.*/
+  public void setStatusDaEntrega(String status) {
+    try {
+      StatusDaEntrega statusDaEntrega = StatusDaEntrega.valueOf(status);
+      this.statusDaEntrega = statusDaEntrega;
+    } catch (IllegalArgumentException e) {
+      throw new NaoEncontradoException(
+          "Status não encontrado,"
+          + " por favor escreva 'EM_ANDAMENTO', 'PENDENTE', 'CANCELADO' ou 'ENTREGUE'");
+    }
   }
 
   public Double getLatitudeDestino() {
