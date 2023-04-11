@@ -70,7 +70,7 @@ public class EntregaController {
    * @param id ID da entrega.
    * @return Drone responsável pela entrega
    */
-  @GetMapping("/drone/{id}")
+  @GetMapping("/{id}/drone")
   public ResponseEntity<Drone> getDrone(@PathVariable Long id) {
     Drone response = entregaService.findDrone(id);
 
