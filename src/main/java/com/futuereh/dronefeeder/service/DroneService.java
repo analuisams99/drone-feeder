@@ -1,5 +1,6 @@
 package com.futuereh.dronefeeder.service;
 
+import com.futuereh.dronefeeder.exceptions.BadRequestException;
 import com.futuereh.dronefeeder.exceptions.NaoEncontradoException;
 import com.futuereh.dronefeeder.model.Drone;
 import com.futuereh.dronefeeder.model.Entrega;
@@ -22,6 +23,9 @@ public class DroneService {
   
   /**Método de inserir novo drone.*/
   public Drone inserirDrone(Drone drone) {
+    if (drone.getModelo().isEmpty()) {
+      throw new BadRequestException("Insira um modelo para criar um Drone");
+    }
     return repository.save(drone);
   }
   
