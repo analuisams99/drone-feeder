@@ -1,5 +1,6 @@
 package com.futuereh.dronefeeder.controller;
 
+import com.futuereh.dronefeeder.exceptions.BadRequestException;
 import com.futuereh.dronefeeder.exceptions.ErrorResponse;
 import com.futuereh.dronefeeder.exceptions.NaoEncontradoException;
 import org.springframework.http.HttpStatus;
@@ -23,6 +24,13 @@ public class ExceptionController {
     ErrorResponse response = new ErrorResponse(exception.getMessage());
 
     return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+  }
+
+  @ExceptionHandler(BadRequestException.class)
+  public ResponseEntity<ErrorResponse> badRequest(RuntimeException exception) {
+    ErrorResponse response = new ErrorResponse(exception.getMessage());
+
+    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
   }
 
   /**
